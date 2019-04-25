@@ -7,4 +7,4 @@ struct VGAChar_t {
     char background:4;
 }__attribute__((packed));
 
-void putchar(int x, int y, char c, char foreground, char background);
+void putcar(int x, int y, char c, char foreground, char background);
