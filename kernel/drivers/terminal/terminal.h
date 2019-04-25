@@ -33,8 +33,8 @@ struct Cursor {
 
 void cls();
 
-void putchar(char input);
-void putchar(int x, int y, char c, char foreground, char background);
+void puts(char input);
+void puts(int x, int y, char c, char foreground, char background);
 
 void write(char* input);
 void writeln(char* input);

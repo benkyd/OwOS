@@ -16,26 +16,26 @@ Cursor cursor;
 void cls() {
     for (uint8_t x = 0; x < TERMINAL_WIDTH; x++)
         for (uint8_t y = 0; y < TERMINAL_HEIGHT; y++)
-            putchar(x, y, ' ', fgColour, clearColour);
+            puts(x, y, ' ', fgColour, clearColour);
 
     cursor.x = 0; cursor.y = 0;
     updateCursor(cursor);
 }
 
-void putchar(char input) {
+void puts(char input) {
     if (cursor.x + 1 > TERMINAL_WIDTH) {
         nline();
     }
     if (input == '\n') {
         nline();
     } else {
-        putchar(cursor.x, cursor.y, input, fgColour, bgColour);
+        puts(cursor.x, cursor.y, input, fgColour, bgColour);
         cursor.x++;
     }
     updateCursor(cursor);
 }
 
-void putchar(int x, int y, char c, char foreground, char background) {
+void puts(int x, int y, char c, char foreground, char background) {
     frameBuffer[(y * TERMINAL_WIDTH) + x].c = c;
     frameBuffer[(y * TERMINAL_WIDTH) + x].foreground = foreground;
     frameBuffer[(y * TERMINAL_WIDTH) + x].background = background;
@@ -49,7 +49,7 @@ void write(char* input) {
         if (input[i] == '\n') {
             nline();
         } else {
-            putchar(cursor.x, cursor.y, input[i], fgColour, bgColour);
+            puts(cursor.x, cursor.y, input[i], fgColour, bgColour);
             cursor.x++;
         }
     }
