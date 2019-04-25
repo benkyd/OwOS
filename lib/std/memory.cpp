@@ -27,7 +27,7 @@ void* memmove(void* dst, const void* src, uint32_t size) {
 		for (uint32_t i = 0; i < size; i++)
 			d[i] = s[i];
 	else
-		for (uint32_t i = size; i--; )
+		for (uint32_t i = size; --i; )
 			d[i-1] = s[i-1];
 	return dst;
 }

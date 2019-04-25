@@ -1,4 +1,5 @@
-#include <lib/std/string.h>
+#pragma once
+
 #include <lib/stdint.h>
 
 enum {
@@ -36,10 +37,10 @@ void cls();
 void puts(char input);
 void puts(int x, int y, char c, char foreground, char background);
 
+void nline();
+
 void write(char* input);
 void writeln(char* input);
-
-void nline();
 
 void setClearColour(char col);
 void setFGColour(char col);

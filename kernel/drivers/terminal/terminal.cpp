@@ -1,6 +1,7 @@
 #include "terminal.h"
 
 #include <kernel/kernio.h>
+#include <lib/std/string.h>
 
 static const int TERMINAL_WIDTH = 80;
 static const int TERMINAL_HEIGHT = 24;
@@ -41,30 +42,31 @@ void puts(int x, int y, char c, char foreground, char background) {
     frameBuffer[(y * TERMINAL_WIDTH) + x].background = background;
 }
 
-void write(char* input) {
-    for (uint32_t i = 0; i < strlen(input); i++) {
-        if (cursor.x + 1 > TERMINAL_WIDTH) {
-            nline();
-        }
-        if (input[i] == '\n') {
-            nline();
-        } else {
-            puts(cursor.x, cursor.y, input[i], fgColour, bgColour);
-            cursor.x++;
-        }
-    }
-    updateCursor(cursor);
-}
-
-void writeln(char* input) {
-    write(input);
-    nline();
-}
-
 void nline() {
     cursor.y++;
     cursor.x = 0;
     updateCursor(cursor);
+}
+
+void write(char* input) {
+	for (uint32_t i = 0; i < strlen(input); i++) {
+		if (cursor.x + 1 > TERMINAL_WIDTH) {
+			nline();
+		}
+		if (input[i] == '\n') {
+			nline();
+		}
+		else {
+			puts(cursor.x, cursor.y, input[i], fgColour, bgColour);
+			cursor.x++;
+		}
+	}
+	updateCursor(cursor);
+}
+
+void writeln(char* input) {
+	write(input);
+	nline();
 }
 
 void setClearColour(char col) {

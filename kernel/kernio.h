@@ -1,3 +1,5 @@
+#pragma once
+
 #include <lib/stdint.h>
 
 inline void outb(uint16_t port, uint8_t b) {

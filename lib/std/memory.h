@@ -1,3 +1,5 @@
+#pragma once 
+
 #include <lib/stdint.h>
 
 bool  memcmp(const void* a, const void* b, uint32_t size);
