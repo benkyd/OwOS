@@ -18,8 +18,7 @@ file(GLOB KERN_SRC        "*.asm" "*.cpp")
 file(GLOB KERN_LIB_SRC    "kernel/*.cpp" "kernel/*.asm") 
 
 # Driver source
-file(GLOB DRIV_DISP_VGA  "kernel/drivers/VGA/*.cpp" "kernel/drivers/VGA/*.asm")
-file(GLOB DRIV_DISP_TERM "kernel/drivers/terminal/*.cpp" "kernel/drivers/terminal/*.asm")
+file(GLOB DRIV_DISP_VGA  "kernel/drivers/terminal/*.cpp" "kernel/drivers/terminal/*.asm")
 
 # Lib source
 file(GLOB LIB_STD        "lib/std/*.cpp" "lib/std/*.asm")
@@ -27,7 +26,7 @@ file(GLOB LIB_STD        "lib/std/*.cpp" "lib/std/*.asm")
 
 
 add_executable(OwOS ${KERN_SRC} ${KERN_LIB_SRC}
-                    ${DRIV_DISP_VGA} ${DRIV_DISP_TERM} 
+                    ${DRIV_DISP_VGA} 
                     ${LIB_STD})
 
 set_target_properties(OwOS PROPERTIES OUTPUT_NAME "OwOS.bin")
