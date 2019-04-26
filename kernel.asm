@@ -30,6 +30,16 @@ _start:
 	push %ebx
 	push %eax
 
+	call kernel_main
+
+	cli
+1:	hlt
+	jmp 1b
+
+
+.global ASM_INIT_FPU
+
+ASM_INIT_FPU:
     # FPU Config
     VAL_037F:
         .hword 0x037F
@@ -39,23 +49,13 @@ _start:
         .hword 0x037A
     # Configure FPU
     cli
-    mov %cr0, %eax
-    or $0b00110010, %eax
-    and $0xFFFFFFFB, %eax
-    mov %eax, %cr0
+    mov %cr0, %ecx
+    or $0b00110010, %ecx
+    and $0xFFFFFFFB, %ecx
+    mov %ecx, %cr0
     fldcw VAL_037F
     fldcw VAL_037E
     fldcw VAL_037A
     fninit
-
-	call kernel_main
-
-	cli
-1:	hlt
-	jmp 1b
-
-_hang:
-    hlt
-    jmp _hang
 
 .size _start, . - _start

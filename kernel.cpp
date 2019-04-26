@@ -1,38 +1,28 @@
 #include <lib/std/stdlib.h>
 #include <kernel/multiboot.h>
+#include <kernel/kernio.h>
 #include <kernel/drivers/terminal/terminal.h>
 
 extern "C"
-
 int kernel_main(uint32_t magic, multibootInfo_t* multiboot) {
-
     cls();
     showCursor();
-    
-	write("OwOS ");
 	setFGColour(VGA_GREEN);
-	write("Starting Up...");
+	write("OwOS V0.2 ");
+	writeln("Starting Up...");
 	setFGColour(VGA_WHITE);
-
 	nline();
+
 
 	write("OwO, What's This? ");
 	write("*notices ");
-	
-	char* ram = "";
-	itoa((int)multiboot->mem_upper, ram);
-
-	write(ram);
-	write("mb of ram*");
+	write(itoa(multiboot->mem_upper / 1024));
+    write("mb of ram*");
 	setFGColour(VGA_BRIGHT_MAGENTA);
-	write(" OwO That's a lot of memory");
-	setFGColour(VGA_WHITE);
-	nline();
-	nline();
-	nline();
+	nline(); nline(); nline();
 
 
-    writeln("Okay, this is pretty epic");
+    write("~#");
 
     for (;;)
         asm("hlt");
