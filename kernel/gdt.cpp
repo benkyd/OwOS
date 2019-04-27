@@ -21,13 +21,9 @@ struct GDT_t {
 SegmentDescriptor_t _GDT[5];
 GDT_t               _GDTptr;
 
-void lgdt(void* base, uint16_t size) {
-    struct {
-        uint16_t length;
-        void*    base;
-    } __attribute__((packed)) GDTR = { size, base };
- 
-    asm ( "lgdt %0" : : "m"(GDTR) );}
+void lgdt(GDT_t GDT) {
+    asm ("lgdt %0" : : "m"(GDT));
+}
 
 void initGDT() {
     #define BochsBreak() outw(0x8A00,0x8A00); outw(0x8A00,0x08AE0);
@@ -41,7 +37,7 @@ void initGDT() {
     // Data   Base 0      Limit 32    Access RW
     setGDTGate(2, 0x00000000, 0xFFFFFFFF, GDT_ACCESS_PRESENT | GDT_ACCESS_RW,                    GDT_FLAG_GR_PAGE | GDT_FLAG_SZ_32B);
 
-    lgdt(&_GDT, sizeof(_GDT));
+    lgdt(_GDTptr);
     BochsBreak();
     SEGMENTS_RELOAD();
 }
