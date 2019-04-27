@@ -1,10 +1,17 @@
-#include <lib/std/stdlib.h>
 #include <kernel/multiboot.h>
-#include <lib/kernel/logger/logger.h>
+
 #include <kernel/drivers/terminal/terminal.h>
+#include <kernel/kernio.h>
+#include <kernel/gdt.h>
+
+#include <lib/std/stdlib.h>
+#include <lib/std/memory.h>
+#include <lib/kernel/logger/logger.h>
+
+#define BochsBreak() outw(0x8A00,0x8A00); outw(0x8A00,0x08AE0);
 
 extern "C" {
-	extern void ASM_INIT_FPU(void);
+	extern void INIT_FPU(void);
 }
 
 extern "C"
@@ -13,23 +20,29 @@ int kernel_main(uint32_t magic, multibootInfo_t* multiboot) {
     cls();
     showCursor();
 	setFGColour(VGA_GREEN);
-	write("OwOS V0.2 ");
-	writeln("Starting Up...");
+	writeln("OwOS V0.2 Starting Up...");
 	setFGColour(VGA_WHITE);
 	nline();
 
+	// Init systems
 
-	write("OwO, What's This? ");
-	write("*notices ");
-	write(itoa(multiboot->mem_upper / 1024));
-    write("mb of ram*");
+	initGDT();
+	loggerOK("GDT Loaded");
+
+
+
+	nline(); nline();	
+	write("OwO, What's This?");
 	setFGColour(VGA_BRIGHT_MAGENTA);
-	nline(); nline(); nline();
+	write(" *notices ");
+	write(itoa(multiboot->mem_upper / 1024));
+	writeln("mb of ram*");
+	setFGColour(VGA_WHITE);
+	nline(); 
 
-
-    ASM_INIT_FPU();
-
-
+	setFGColour(VGA_YELLOW);
+	writeln("Welcome to OwOS");
+	setFGColour(VGA_BRIGHT_MAGENTA);
     write("~#");
 
     for (;;)

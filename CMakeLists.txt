@@ -22,12 +22,14 @@ file(GLOB DRIV_DISP_VGA  "kernel/drivers/terminal/*.cpp" "kernel/drivers/termina
 
 # Lib source
 file(GLOB LIB_STD        "lib/std/*.cpp" "lib/std/*.asm")
+file(GLOB LIB_KERN_LOG   "lib/kernel/logger/*.cpp" "lib/kernel/logger/*.asm")
 
 
 
 add_executable(OwOS ${KERN_SRC} ${KERN_LIB_SRC}
                     ${DRIV_DISP_VGA} 
-                    ${LIB_STD})
+                    ${LIB_STD} ${LIB_KERN_LOG})
+
 
 set_target_properties(OwOS PROPERTIES OUTPUT_NAME "OwOS.bin")
 

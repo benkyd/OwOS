@@ -37,10 +37,10 @@ _start:
 	jmp 1b
 
 
-.global ASM_INIT_FPU
-.type ASM_INIT_FPU, @function
+.global INIT_FPU
+.type INIT_FPU, @function
 
-ASM_INIT_FPU:
+INIT_FPU:
     # FPU Config
     VAL_037F:
         .hword 0x037F

@@ -4,3 +4,4 @@ Makefile
 cmake_install.cmake
 .vscode/
 .vs/
+bx_enh_dbg.ini
