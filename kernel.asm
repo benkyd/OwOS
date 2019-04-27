@@ -38,6 +38,7 @@ _start:
 
 
 .global ASM_INIT_FPU
+.type ASM_INIT_FPU, @function
 
 ASM_INIT_FPU:
     # FPU Config
