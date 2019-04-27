@@ -20,4 +20,4 @@ extern "C" {
 }
 
 void initGDT();
-void setGDT(uint32_t index, uint32_t baseAddr, uint32_t limitAddr, uint8_t accessLvl, uint8_t flags);
+void setGDTGate(uint32_t index, uint32_t baseAddr, uint32_t limitAddr, uint8_t accessLvl, uint8_t flags);

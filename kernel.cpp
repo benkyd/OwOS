@@ -8,8 +8,6 @@
 #include <lib/std/memory.h>
 #include <lib/kernel/logger/logger.h>
 
-#define BochsBreak() outw(0x8A00,0x8A00); outw(0x8A00,0x08AE0);
-
 extern "C" {
 	extern void INIT_FPU(void);
 }
