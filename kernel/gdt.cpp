@@ -48,14 +48,14 @@ void initGDT() {
 
 void setGDTGate(uint32_t index, uint32_t baseAddr, uint32_t limitAddr, uint8_t accessLvl, uint8_t flags) {
     if (index > 5) return;
-    _GDT[index].base_low    = (baseAddr & 0xFFFF);
-    _GDT[index].base_middle = (baseAddr >> 16) & 0xFF;
-    _GDT[index].base_high   = (baseAddr >> 24) & 0xFF;
+    _GDT[index].base_low     = (baseAddr & 0xFFFF);
+    _GDT[index].base_middle  = (baseAddr >> 16) & 0xFF;
+    _GDT[index].base_high    = (baseAddr >> 24) & 0xFF;
 
-    _GDT[index].limit_low   = (limitAddr >> 0) & 0xFFFF;
+    _GDT[index].limit_low    = (limitAddr >> 0) & 0xFFFF;
     _GDT[index].granularity0 = (limitAddr >> 16) & 0x0F;
     
     _GDT[index].granularity1 = flags & 0x0F;
-    _GDT[index].access      = accessLvl;
+    _GDT[index].access       = accessLvl;
 }
 
