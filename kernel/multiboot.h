@@ -3,7 +3,7 @@
 #include <lib/stdint.h>
 
 // Totally stolen from here https://forum.osdev.org/viewtopic.php?f=1&t=8881
-struct multibootInfo_t {
+struct MultibootInfo_t {
     uint32_t flags;
     uint32_t mem_lower;
     uint32_t mem_upper;

@@ -2,6 +2,7 @@
 
 #include <kernel/drivers/terminal/terminal.h>
 #include <kernel/kernio.h>
+#include <kernel/panic.h>
 #include <kernel/gdt.h>
 
 #include <lib/std/stdlib.h>
@@ -14,34 +15,37 @@ extern "C" {
 
 extern "C"
 
-int kernel_main(uint32_t magic, multibootInfo_t* multiboot) {
-    cls();
-    showCursor();
-	setFGColour(VGA_GREEN);
-	writeln("OwOS V0.2 Starting Up...");
-	setFGColour(VGA_WHITE);
-	nline();
+int kernel_main(uint32_t magic, MultibootInfo_t* multiboot) {
+    Cls();
+    ShowCursor();
+	SetFGColour(VGA_GREEN);
+	Writeln("OwOS V0.2 Starting Up...");
+	SetFGColour(VGA_WHITE);
+	Nline();
 
 	// Init systems
 
-	initGDT();
-	loggerOK("GDT Loaded");
+	int igdt = InitGDT();
+	if (igdt == 1)
+		loggerOK("GDT Loaded");
+	else
 
 
+	Nline(); Nline();	
+	Write("OwO, What's This?");
+	SetFGColour(VGA_BRIGHT_MAGENTA);
+	Write(" *notices ");
+	Write(itoa(multiboot->mem_upper / 1024));
+	Writeln("mb of ram*");
+	SetFGColour(VGA_WHITE);
+	Nline(); 
 
-	nline(); nline();	
-	write("OwO, What's This?");
-	setFGColour(VGA_BRIGHT_MAGENTA);
-	write(" *notices ");
-	write(itoa(multiboot->mem_upper / 1024));
-	writeln("mb of ram*");
-	setFGColour(VGA_WHITE);
-	nline(); 
+	SetFGColour(VGA_YELLOW);
+	Writeln("Welcome to OwOS");
+	SetFGColour(VGA_BRIGHT_MAGENTA);
+    Write("~#");
 
-	setFGColour(VGA_YELLOW);
-	writeln("Welcome to OwOS");
-	setFGColour(VGA_BRIGHT_MAGENTA);
-    write("~#");
+	PanicKernel(0x00, "Self Triggered Panic", "kernel.cpp:48", "kernel_main(uint32_t magic, MultibootInfo_t* multiboot)");
 
     for (;;)
         asm("hlt");

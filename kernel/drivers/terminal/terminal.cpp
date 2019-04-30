@@ -3,9 +3,6 @@
 #include <kernel/kernio.h>
 #include <lib/std/string.h>
 
-static const int TERMINAL_WIDTH = 80;
-static const int TERMINAL_HEIGHT = 24;
-
 static VGAChar_t* frameBuffer = (VGAChar_t*)0xB8000;
 
 static char clearColour = 0x0;
@@ -14,74 +11,79 @@ static char fgColour    = 0xF;
 
 Cursor cursor;
 
-void cls() {
+void Cls() {
     for (uint8_t x = 0; x < TERMINAL_WIDTH; x++)
         for (uint8_t y = 0; y < TERMINAL_HEIGHT; y++)
-            puts(x, y, ' ', fgColour, clearColour);
+            Puts(x, y, ' ', fgColour, clearColour);
 
     cursor.x = 0; cursor.y = 0;
-    updateCursor(cursor);
+    UpdateCursor(cursor);
 }
 
-void puts(char input) {
+void Puts(char input) {
     if (cursor.x + 1 > TERMINAL_WIDTH) {
-        nline();
+        Nline();
     }
     if (input == '\n') {
-        nline();
+        Nline();
     } else {
-        puts(cursor.x, cursor.y, input, fgColour, bgColour);
+        Puts(cursor.x, cursor.y, input, fgColour, bgColour);
         cursor.x++;
     }
-    updateCursor(cursor);
+    UpdateCursor(cursor);
 }
 
-void puts(int x, int y, char c, char foreground, char background) {
+void Puts(int x, int y, char c, char foreground, char background) {
     frameBuffer[(y * TERMINAL_WIDTH) + x].c = c;
     frameBuffer[(y * TERMINAL_WIDTH) + x].foreground = foreground;
     frameBuffer[(y * TERMINAL_WIDTH) + x].background = background;
 }
 
-void nline() {
+void Nline() {
     cursor.y++;
     cursor.x = 0;
-    updateCursor(cursor);
+    UpdateCursor(cursor);
 }
 
-void write(char* input) {
+void Write(char* input) {
 	for (uint32_t i = 0; i < strlen(input); i++) {
 		if (cursor.x + 1 > TERMINAL_WIDTH) {
-			nline();
+			Nline();
 		}
 		if (input[i] == '\n') {
-			nline();
+			Nline();
 		}
 		else {
-			puts(cursor.x, cursor.y, input[i], fgColour, bgColour);
+			Puts(cursor.x, cursor.y, input[i], fgColour, bgColour);
 			cursor.x++;
 		}
 	}
-	updateCursor(cursor);
+	UpdateCursor(cursor);
 }
 
-void writeln(char* input) {
-	write(input);
-	nline();
+void Writeln(char* input) {
+	Write(input);
+	Nline();
 }
 
-void setClearColour(char col) {
+void SetClearColour(char col) {
     clearColour = col;
 }
 
-void setFGColour(char col) {
+void SetFGColour(char col) {
     fgColour = col;
 }
 
-void setBGColour(char col) {
+void SetBGColour(char col) {
     bgColour = col;
 }
 
-void showCursor() {
+void ResetTermColours() {
+    bgColour = 0x0;
+    fgColour = 0xF;
+}
+
+void ShowCursor() {
     outb(0x3D4, 0x0A);
 	outb(0x3D5, (inb(0x3D5) & 0xC0) | 0x0); // Cursor start top
  
@@ -89,12 +91,12 @@ void showCursor() {
 	outb(0x3D5, (inb(0x3D5) & 0xE0) | 0xF); // Cursor start bottom
 }
 
-void hideCursor() {
+void HideCursor() {
     outb(0x3D4, 0x0A);
 	outb(0x3D5, 0x20);
 }
 
-void updateCursor(Cursor c) {
+void UpdateCursor(Cursor c) {
     uint16_t pos = c.y * TERMINAL_WIDTH + c.x;
  
 	outb(0x3D4, 0x0F);
@@ -103,9 +105,13 @@ void updateCursor(Cursor c) {
 	outb(0x3D5, (uint8_t) ((pos >> 8) & 0xFF));
 }
 
-void setCursorPosition(int x, int y) {
+void SetCursorPosition(int x, int y) {
     cursor.x = x; cursor.y = y;
-    updateCursor(cursor);
+    UpdateCursor(cursor);
+}
+
+Cursor GetCursorPosition() {
+    return cursor;
 }
 
 uint8_t getVGACol(char f, char b) {

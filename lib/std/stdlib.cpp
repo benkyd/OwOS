@@ -30,7 +30,7 @@ void reverse(char *s) {
 }
 
 
-char* itoa(int n, char s[]) {
+char* itoa(int n, char* s) {
     int i = 0; 
     bool isNegative = false; 
   
@@ -56,5 +56,30 @@ char* itoa(int n, char s[]) {
     s[i] = '\0';
 	
 	reverse(s);
+    return s;
+}
+
+int hexlen(int n) {
+    if (!n) return 1;
+
+    int ret = 0;
+    for (; n; n >>= 4) {
+        ++ret;
+    }
+    return ret;
+}
+
+char* itohx(int n, char* s) {
+    const char hex_lookup[] = "0123456789ABCDEF";
+    int len = hexlen(n);
+
+    if (len & 1) {
+        *s++ = '0';
+    }
+    s[len] = '\0';
+
+    for (--len; len >= 0; n >>= 4, --len) {
+        s[len] = hex_lookup[n & 0xf];
+    }
     return s;
 }

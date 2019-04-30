@@ -3,24 +3,24 @@
 #include <kernel/drivers/terminal/terminal.h>
 
 void loggerLog(char* str) {
-    write("         ");
-    writeln(str);
+    Write("         ");
+    Writeln(str);
 }
 
 void loggerOK(char* str) {
-    write("[");
-	setFGColour(VGA_BRIGHT_GREEN);
-	write("  OK  ");
-	setFGColour(VGA_WHITE);
-	write("] ");
-    writeln(str);
+    Write("[");
+	SetFGColour(VGA_BRIGHT_GREEN);
+	Write("  OK  ");
+	SetFGColour(VGA_WHITE);
+	Write("] ");
+    Writeln(str);
 }
 
 void loggerFailed(char* str) {
-    write("[");
-	setFGColour(VGA_BRIGHT_RED);
-	write("FAILED");
-	setFGColour(VGA_WHITE);
-	write("] ");
-    writeln(str);
+    Write("[");
+	SetFGColour(VGA_BRIGHT_RED);
+	Write("FAILED");
+	SetFGColour(VGA_WHITE);
+	Write("] ");
+    Writeln(str);
 }

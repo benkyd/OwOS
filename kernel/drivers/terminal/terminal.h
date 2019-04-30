@@ -32,22 +32,27 @@ struct Cursor {
     uint8_t y;
 } __attribute__((packed));
 
-void cls();
+static const int TERMINAL_WIDTH = 80;
+static const int TERMINAL_HEIGHT = 24;
 
-void puts(char input);
-void puts(int x, int y, char c, char foreground, char background);
+void Cls();
 
-void nline();
+void Puts(char input);
+void Puts(int x, int y, char c, char foreground, char background);
 
-void write(char* input);
-void writeln(char* input);
+void Nline();
 
-void setClearColour(char col);
-void setFGColour(char col);
-void setBGColour(char col);
+void Write(char* input);
+void Writeln(char* input);
 
-void showCursor();
-void hideCursor();
+void SetClearColour(char col);
+void SetFGColour(char col);
+void SetBGColour(char col);
+void ResetTermColours();
 
-void updateCursor(Cursor c);
-void setCursorPosition(int x, int y);
+void ShowCursor();
+void HideCursor();
+
+void UpdateCursor(Cursor c);
+void SetCursorPosition(int x, int y);
+Cursor GetCursorPosition();
