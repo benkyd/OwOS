@@ -37,10 +37,10 @@ _start:
 	jmp 1b
 
 
-.global INIT_FPU
-.type INIT_FPU, @function
+.global FPU_Init
+.type FPU_Init, @function
 
-INIT_FPU:
+FPU_Init:
     # FPU Config
     VAL_037F:
         .hword 0x037F
@@ -58,5 +58,6 @@ INIT_FPU:
     fldcw VAL_037E
     fldcw VAL_037A
     fninit
+    ret
 
 .size _start, . - _start

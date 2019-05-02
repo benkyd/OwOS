@@ -13,7 +13,7 @@
 #include <lib/kernel/logger/logger.h>
 
 extern "C" {
-	extern void INIT_FPU(void);
+	extern void FPU_Init(void);
 }
 
 extern "C"
@@ -27,6 +27,9 @@ int kernel_main(uint32_t magic, MultibootInfo_t* multiboot) {
 	Nline();
 
 	// Init systems
+
+	FPU_Init();
+	loggerOK("FPU Init");
 
 	GDT_Init();
 	loggerOK("GDT Init");
@@ -50,6 +53,8 @@ int kernel_main(uint32_t magic, MultibootInfo_t* multiboot) {
 	Writeln("Welcome to OwOS");
 	SetFGColour(VGA_BRIGHT_MAGENTA);
     Write("~#");
+
+    asm("sti");
 
 	// PanicKernel(0x00, "Self Triggered Panic", "kernel.cpp:48", "kernel_main(uint32_t magic, MultibootInfo_t* multiboot)");
 

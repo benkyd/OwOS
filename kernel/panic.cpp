@@ -7,6 +7,8 @@
 #include <kernel/drivers/terminal/terminal.h>
 
 void PanicKernel(char code, char* why, char* where, char* what) {
+    asm("cli");
+
     if (why == "") {
         switch (code) {
             case 0x00:
@@ -79,5 +81,7 @@ void PanicKernel(char code, char* why, char* where, char* what) {
     Write("Error Code: 0x");
     Write(itohx(code));
 
-    asm("cli"); // Clear interrupt bit / dissable interrupts
+    for (;;) {
+        asm("hlt");
+    }
 }

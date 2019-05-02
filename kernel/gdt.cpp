@@ -31,9 +31,9 @@ void GDT_Init() {
 
     // Null segment
     GDT_Set_Gate(0, 0, 0, 0, 0);
-    // Code      Base 0      limit 32    Access EXEC + RW
+    // Code         Base 0      limit 32    Access EXEC + RW
     GDT_Set_Gate(1, 0x00000000, 0xFFFFFFFF, GDT_ACCESS_PRESENT | GDT_ACCESS_EXEC | GDT_ACCESS_RW,  GDT_FLAG_GR_PAGE | GDT_FLAG_SZ_32B);
-    // Data      Base 0      Limit 32    Access RW
+    // Data         Base 0      Limit 32    Access RW
     GDT_Set_Gate(2, 0x00000000, 0xFFFFFFFF, GDT_ACCESS_PRESENT | GDT_ACCESS_RW,                    GDT_FLAG_GR_PAGE | GDT_FLAG_SZ_32B);
 
     lgdt(_GDTptr);
