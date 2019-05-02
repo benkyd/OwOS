@@ -38,8 +38,7 @@ static inline void outl(uint16_t port, uint32_t val) {
     asm ( "outl %0, %1" : : "a"(val), "Nd"(port) );
 }
 
-static inline void io_wait(void) {
-    /* TODO: This is probably fragile. */
+static inline void io_wait() {
     asm  ( "jmp 1f\n\t"
            "1:jmp 2f\n\t"
            "2:" );

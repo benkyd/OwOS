@@ -25,23 +25,22 @@ void lgdt(GDT_t GDT) {
     asm ("lgdt %0" : : "m"(GDT));
 }
 
-int InitGDT() {
+void GDT_Init() {
     _GDTptr.limit = (sizeof(SegmentDescriptor_t) * 5) - 1;
     _GDTptr.base  = (uint32_t)&_GDT;
 
     // Null segment
-    SetGDTGate(0, 0, 0, 0, 0);
-    // Code   Base 0      limit 32    Access EXEC + RW
-    SetGDTGate(1, 0x00000000, 0xFFFFFFFF, GDT_ACCESS_PRESENT | GDT_ACCESS_EXEC | GDT_ACCESS_RW,  GDT_FLAG_GR_PAGE | GDT_FLAG_SZ_32B);
-    // Data   Base 0      Limit 32    Access RW
-    SetGDTGate(2, 0x00000000, 0xFFFFFFFF, GDT_ACCESS_PRESENT | GDT_ACCESS_RW,                    GDT_FLAG_GR_PAGE | GDT_FLAG_SZ_32B);
+    GDT_Set_Gate(0, 0, 0, 0, 0);
+    // Code      Base 0      limit 32    Access EXEC + RW
+    GDT_Set_Gate(1, 0x00000000, 0xFFFFFFFF, GDT_ACCESS_PRESENT | GDT_ACCESS_EXEC | GDT_ACCESS_RW,  GDT_FLAG_GR_PAGE | GDT_FLAG_SZ_32B);
+    // Data      Base 0      Limit 32    Access RW
+    GDT_Set_Gate(2, 0x00000000, 0xFFFFFFFF, GDT_ACCESS_PRESENT | GDT_ACCESS_RW,                    GDT_FLAG_GR_PAGE | GDT_FLAG_SZ_32B);
 
     lgdt(_GDTptr);
     SEGMENTS_RELOAD();
-    return 1;
 }
 
-void SetGDTGate(uint32_t index, uint32_t baseAddr, uint32_t limitAddr, uint8_t accessLvl, uint8_t flags) {
+void GDT_Set_Gate(uint32_t index, uint32_t baseAddr, uint32_t limitAddr, uint8_t accessLvl, uint8_t flags) {
     if (index > 5) return;
     _GDT[index].base_low     = (baseAddr & 0xFFFF);
     _GDT[index].base_middle  = (baseAddr >> 16) & 0xFF;

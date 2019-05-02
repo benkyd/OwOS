@@ -1,9 +1,12 @@
 #include <kernel/multiboot.h>
 
 #include <kernel/drivers/terminal/terminal.h>
+
 #include <kernel/kernio.h>
 #include <kernel/panic.h>
+#include <kernel/pic.h>
 #include <kernel/gdt.h>
+#include <kernel/idt.h>
 
 #include <lib/std/stdlib.h>
 #include <lib/std/memory.h>
@@ -25,11 +28,14 @@ int kernel_main(uint32_t magic, MultibootInfo_t* multiboot) {
 
 	// Init systems
 
-	int igdt = InitGDT();
-	if (igdt == 1)
-		loggerOK("GDT Loaded");
-	else
+	GDT_Init();
+	loggerOK("GDT Init");
+	
+	PIC_Default_Remap();
+	loggerOK("PIC Remapped");
 
+	IDT_Init();
+	loggerOK("IDT Init");
 
 	Nline(); Nline();	
 	Write("OwO, What's This?");
@@ -45,7 +51,7 @@ int kernel_main(uint32_t magic, MultibootInfo_t* multiboot) {
 	SetFGColour(VGA_BRIGHT_MAGENTA);
     Write("~#");
 
-	PanicKernel(0x00, "Self Triggered Panic", "kernel.cpp:48", "kernel_main(uint32_t magic, MultibootInfo_t* multiboot)");
+	// PanicKernel(0x00, "Self Triggered Panic", "kernel.cpp:48", "kernel_main(uint32_t magic, MultibootInfo_t* multiboot)");
 
     for (;;)
         asm("hlt");

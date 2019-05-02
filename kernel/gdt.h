@@ -19,5 +19,5 @@ extern "C" {
     extern void SEGMENTS_RELOAD(void);
 }
 
-int InitGDT();
-void SetGDTGate(uint32_t index, uint32_t baseAddr, uint32_t limitAddr, uint8_t accessLvl, uint8_t flags);
+void GDT_Init();
+void GDT_Set_Gate(uint32_t index, uint32_t baseAddr, uint32_t limitAddr, uint8_t accessLvl, uint8_t flags);

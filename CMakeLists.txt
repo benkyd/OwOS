@@ -7,7 +7,7 @@ set(CMAKE_ASM_COMPILER "i686-elf-as")
 set(CMAKE_C_COMPILER "i686-elf-gcc")
 set(CMAKE_CXX_COMPILER "i686-elf-g++")
 
-set(CMAKE_CXX_FLAGS  "-ffreestanding -O2 -fno-rtti -Wno-write-strings -Wno-multichar -Wno-unused-parameter -Wno-overflow -Wno-narrowing -fno-exceptions -Wno-trigraphs ${CMAKE_CXX_FLAGS}")
+set(CMAKE_CXX_FLAGS  "-ffreestanding -funroll-loops -O2 -fno-rtti -Wno-write-strings -Wno-multichar -Wno-unused-parameter -Wno-overflow -Wno-narrowing -fno-exceptions -Wno-trigraphs ${CMAKE_CXX_FLAGS}")
 set(CMAKE_EXE_LINKER_FLAGS  "-T ../linker.ld -ffreestanding -O2 -nostdlib -lgcc -Wwrite-strings ${CMAKE_EXE_LINKER_FLAGS}")
 
 include_directories(OwOS "./")
